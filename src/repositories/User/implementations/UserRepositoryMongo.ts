@@ -1,4 +1,6 @@
 import UserMongo from '../../../entities/user/implementations/UserMongo'
+
+import { IValidateUserEmailDto } from '../../../dto/user/ValidateUserEmail'
 import { IUserRepository } from '../IUserRepository'
 import { User } from '../../../entities/user/Users'
 
@@ -12,6 +14,25 @@ class UserRepositoryMongo implements IUserRepository {
 
     return user
   }
+
+  async findByEmailAndCode(data: IValidateUserEmailDto): Promise<User> {
+    const emailAuthentication = {
+      code: data.code,
+      status: false,
+    }
+
+    const newEmailAuthentication = {
+      code: null,
+      status: true,
+    }
+
+    const user = await UserMongo.findOneAndUpdate(
+      { _id: data.id, emailAuthentication },
+      { emailAuthentication: newEmailAuthentication }
+    )
+
+    return user
+  }
 }
 
-export default new UserRepositoryMongo
+export default new UserRepositoryMongo()

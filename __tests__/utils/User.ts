@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid'
+
 import UserModel from '../../src/entities/user/implementations/UserMongo'
 import { User } from '../../src/entities/user/Users'
 
@@ -6,9 +8,16 @@ export const createFakeUser = async (
   name?: string,
   phone?: string,
   birthDate?: Date,
-  confirm?: boolean,
+  confirm?: boolean
 ) => {
-  const confirmCode = confirm ? 'teste' : null
+  const emailAuthentication = {
+    code: null,
+    status: true,
+  }
+  if (confirm) {
+    emailAuthentication.code = uuid()
+    emailAuthentication.status = false
+  }
 
   const obj = {
     email,
@@ -16,10 +25,12 @@ export const createFakeUser = async (
     password: 'teste@123',
     phone,
     birthDate,
-    confirmCode
+    emailAuthentication,
   }
 
-  const user = new User(obj)
+  let user = new User(obj)
 
-  await UserModel.create(user)
+  user = await UserModel.create(user)
+
+  return user
 }
