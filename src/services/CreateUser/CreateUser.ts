@@ -23,7 +23,10 @@ class CreateUser implements ICreateUser {
       throw new FieldAreadyInUse('Email')
     }
 
-    data.confirmCode = uuid()
+    const emailAuthentication = {
+      code: uuid()
+    }
+    data.emailAuthentication = emailAuthentication
     const user = new User(data)
 
     await this.userRepository.save(user)
@@ -32,7 +35,7 @@ class CreateUser implements ICreateUser {
       {
         email: data.email,
         subject: 'Confirme seu e-mail',
-        code: data.confirmCode,
+        code: data.emailAuthentication.code,
         name: data.name
       },
       TypeEmail.CONFIRM

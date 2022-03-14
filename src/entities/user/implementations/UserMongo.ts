@@ -8,7 +8,10 @@ const User = new mongoose.Schema(
     password: String,
     phone: { type: String, maxlength: 11, minlength: 11 },
     birthDate: Date,
-    confirmCode: String
+    emailAuthentication: {
+      code: String,
+      status: { type: Boolean, default: false }
+    }
   },
   {
     timestamps: true,

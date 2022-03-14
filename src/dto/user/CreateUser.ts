@@ -1,8 +1,13 @@
+export interface IEmailAuthentication {
+  code?: string
+  status?: boolean
+}
+
 export interface IUserCreateDto {
   name: string
   email: string
   password: string
   phone: string
   birthDate: Date
-  confirmCode?: string
+  emailAuthentication?: IEmailAuthentication
 }
