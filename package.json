@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "export NODE_ENV=dev && tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
-    "test": "export NODE_ENV=test && jest --detectOpenHandles --forceExit"
+    "test": "export NODE_ENV=test && jest --detectOpenHandles --forceExit",
+    "husky": "husky install"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
