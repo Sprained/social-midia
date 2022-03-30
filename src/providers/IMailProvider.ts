@@ -1,7 +1,7 @@
 export interface IMessage {
   email: string
   subject: string
-  name: string
+  name?: string
   code?: string
   user_id?: string
 }

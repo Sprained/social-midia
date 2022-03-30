@@ -11,3 +11,8 @@ export interface IUserCreateDto {
   birthDate: Date
   emailAuthentication?: IEmailAuthentication
 }
+
+export interface IPasswordRecovery {
+  code: string
+  expires: Date
+}

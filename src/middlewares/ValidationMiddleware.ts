@@ -1,7 +1,7 @@
 import { ValidationError, validationResult } from 'express-validator'
 import { NextFunction, Request, Response } from 'express'
 
-import { ErrorExpressValidation } from '../errors/ErrorExpressValidation'
+import { ValidationErrorHandler } from '../errors/ValidationError'
 
 const parseErrors = (errors: ValidationError[]) => {
   const dict = {}
@@ -23,11 +23,11 @@ export const validateMiddleware = (req: Request, res: Response, next: NextFuncti
   try {
     const errors: ValidationError[] = validationResult(req).array()
 
-    if (errors.length > 0) throw new ErrorExpressValidation(parseErrors(errors))
+    if (errors.length > 0) throw new ValidationErrorHandler(parseErrors(errors))
 
     next()
   } catch (error) {
-    if (error instanceof ErrorExpressValidation) {
+    if (error instanceof ValidationErrorHandler) {
       res.status(error.statusCode).send({ message: error.message, field_errors: error.fieldErrors })
     } else {
       res.status(500).send({ message: error?.message ?? 'Internal Error' })
