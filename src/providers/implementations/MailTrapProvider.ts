@@ -17,17 +17,22 @@ class MailTrapProvider implements IMailProvider {
   async sendMail(message: IMessage, type: string): Promise<void> {
     let pageHtml: any
     if (type === TypeEmail.CONFIRM) {
-      pageHtml = this.readFileHtml(path.join(path.resolve('./src/providers'), 'templates', 'email-confirmation.html'), {
-        link: `$http://url-do-front/email-confirmation/?code=${message.code}`
-      })
-    } else {
-      pageHtml = this.readFileHtml(path.join(path.resolve('./src/providers'), 'templates', 'esqueci-senha.html'), {
-        code: message.code,
-        link: `${process.env.WEB_SITE}/recoveryCode`,
-      })
+      pageHtml = this.readFileHtml(
+        path.join(path.resolve('./src/providers'), 'templates', 'email-confirmation.html'),
+        {
+          link: `${process.env.WEB_SITE}/email-confirmation?code=${message.code}`,
+        }
+      )
+    } else if (type === TypeEmail.FORGOT_PASSWORD) {
+      pageHtml = this.readFileHtml(
+        path.join(path.resolve('./src/providers'), 'templates', 'password-recovery.html'),
+        {
+          link: `${process.env.WEB_SITE}/recovery-password?code=${message.code}`,
+        }
+      )
     }
 
-    if(process.env.NODE_ENV !== 'test') {
+    if (process.env.NODE_ENV !== 'test') {
       const transport = nodemailer.createTransport({
         host: 'smtp.mailtrap.io',
         port: 2525,
@@ -36,14 +41,14 @@ class MailTrapProvider implements IMailProvider {
           pass: process.env.MAILTRAP_PASS,
         },
       })
-  
+
       const msg = {
         from: process.env.MAIL,
         to: message.email,
         subject: message.subject,
         html: pageHtml,
       }
-  
+
       await transport.sendMail(msg).catch((error) => console.log(error))
     }
   }

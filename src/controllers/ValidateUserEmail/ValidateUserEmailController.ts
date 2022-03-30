@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
 
 import { IValidateUserEmail } from '../../services/ValidateUserEmail/IValidateUserEmail'
 import ValidateUserEmail from '../../services/ValidateUserEmail/ValidateUserEmail'

@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 
-import { IEmailAuthentication } from '../../dto/user/CreateUser'
+import { IEmailAuthentication, IPasswordRecovery } from '../../dto/user/CreateUser'
 
 export class User {
   public readonly id: string
@@ -11,11 +11,12 @@ export class User {
   public phone: string
   public birthDate: Date
   public emailAuthentication?: IEmailAuthentication
+  public passwordRecovery?: IPasswordRecovery
 
-  constructor(props: Omit<User, 'id'|'_id'>, id?: string, _id?: string) {
+  constructor(props: Omit<User, 'id' | '_id'>, id?: string, _id?: string) {
     Object.assign(this, props)
 
     const uid = uuid()
-    if(!id) this.id = uid
+    if (!id) this.id = uid
   }
 }
