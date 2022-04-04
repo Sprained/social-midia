@@ -15,6 +15,7 @@ export interface IUpdateUserSearchDto {
   codeRecovery?: string
   createdAt?: Date
   updatedAt?: Date
+  passwordRecovery?: IPasswordRecovery
 }
 
 export interface IUpdateUserDto {

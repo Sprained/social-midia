@@ -8,4 +8,5 @@ export interface IUserRepository {
   findByEmailAndCode(data: IValidateUserEmailDto): Promise<User>
   update(search: IUpdateUserSearchDto, update: IUpdateUserDto): Promise<void>
   exists(search: IUpdateUserSearchDto): Promise<boolean>
+  findByCodePassword(code: string): Promise<User>
 }

@@ -1,4 +1,4 @@
-import { Handler } from './handler';
+import { Handler } from './handler'
 
 export class FieldAreadyInUse extends Handler {
   constructor(field: string) {

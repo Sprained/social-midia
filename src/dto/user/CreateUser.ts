@@ -14,5 +14,5 @@ export interface IUserCreateDto {
 
 export interface IPasswordRecovery {
   code: string
-  expires: Date
+  expires?: Date
 }
