@@ -30,4 +30,13 @@ User.pre('save', async function (next) {
   next()
 })
 
+User.pre('findOneAndUpdate', async function (next) {
+  const update = { ...this.getUpdate() }
+  if (!update['password']) return next()
+
+  update['password'] = await bcrypt.hash(update['password'], 8)
+  this.setUpdate(update)
+  next()
+})
+
 export default mongoose.model('User', User)

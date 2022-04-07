@@ -6,15 +6,16 @@ interface IEmailAuthentication {
 }
 
 export interface IUpdateUserSearchDto {
-  _id?: string
-  email?: string
-  name?: string
-  phone?: string
-  birthDate?: Date
-  emailAuthentication?: IEmailAuthentication
-  codeRecovery?: string
-  createdAt?: Date
-  updatedAt?: Date
+  '_id'?: string
+  'email'?: string
+  'name'?: string
+  'phone'?: string
+  'birthDate'?: Date
+  'emailAuthentication'?: IEmailAuthentication
+  'codeRecovery'?: string
+  'createdAt'?: Date
+  'updatedAt'?: Date
+  'passwordRecovery.code'?: string
 }
 
 export interface IUpdateUserDto {

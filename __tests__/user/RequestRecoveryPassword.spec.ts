@@ -6,7 +6,7 @@ import app from '../../src/app'
 
 jest.setTimeout(10000)
 
-describe('Create User', () => {
+describe('Request Recovery Password', () => {
   mongoServerInit()
   const body = {
     email: 'teste@email.com',
