@@ -46,7 +46,7 @@ class UserRepositoryMongo implements IUserRepository {
   }
 
   async findByCodePassword(code: string): Promise<User> {
-    const user = await UserMongo.findOne({ passwordRecovery: { code: code } })
+    const user = await UserMongo.findOne({ 'passwordRecovery.code': code })
 
     return user
   }

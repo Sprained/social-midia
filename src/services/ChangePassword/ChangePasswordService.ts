@@ -1,6 +1,9 @@
+import bcrypt from 'bcryptjs'
 import moment from 'moment'
 
+import UserRepositoryMongo from '../../repositories/User/implementations/UserRepositoryMongo'
 import { IUserRepository } from '../../repositories/User/IUserRepository'
+import { SamePassword } from '../../errors/ChangePassword/SamePassword'
 import { ExpiredPasswordCode } from '../../errors/ExpiredPasswordCode'
 import { IChangePasswordDto } from '../../dto/user/ChangePassword'
 import { IChangePasswordService } from './IChangePasswordService'
@@ -22,8 +25,12 @@ class ChangePasswordService implements IChangePasswordService {
       throw new ExpiredPasswordCode()
     }
 
+    if (await bcrypt.compare(data.password, user.password)) {
+      throw new SamePassword()
+    }
+
     const search = {
-      passwordRecovery: { code: data.code },
+      'passwordRecovery.code': data.code,
     }
 
     const update = {
@@ -34,3 +41,5 @@ class ChangePasswordService implements IChangePasswordService {
     await this.userRepository.update(search, update)
   }
 }
+
+export default new ChangePasswordService(UserRepositoryMongo)
