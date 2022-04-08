@@ -16,10 +16,6 @@ class LoginController {
 
       return res.status(200).send(token)
     } catch (error) {
-      console.log(
-        '🚀 ~ file: LoginController.ts ~ line 18 ~ LoginController ~ handle ~ error',
-        error
-      )
       return res.status(error.statusCode).send({ error: error.message })
     }
   }
