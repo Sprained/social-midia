@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 
 import RefreshTokenMongo from '../../src/entities/refreshToken/implementations/RefreshTokenMongo'
 import { RefreshToken } from '../../src/entities/refreshToken/RefreshToken'
+import Passport from '../../src/services/Auth/Passport'
 
 import { config } from 'dotenv'
 config()
@@ -25,4 +26,10 @@ export const createFakeRefreshToken = async (
   refreshToken = await RefreshTokenMongo.create(refreshToken)
 
   return refreshToken
+}
+
+export const createFakeToken = async (userId: string) => {
+  const token = await Passport.getToken(userId)
+
+  return token
 }
