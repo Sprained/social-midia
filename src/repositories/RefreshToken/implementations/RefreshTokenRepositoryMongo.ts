@@ -12,6 +12,12 @@ class RefreshTokenRepositoryMongo implements IRefreshTokenRepository {
   async deleteManyByUserId(userId: string): Promise<void> {
     await RefreshTokenMongo.deleteMany({ user: userId })
   }
+
+  async findById(refreshTokenId: string): Promise<RefreshToken> {
+    const token = await RefreshTokenMongo.findById(refreshTokenId)
+
+    return token
+  }
 }
 
 export default new RefreshTokenRepositoryMongo()
