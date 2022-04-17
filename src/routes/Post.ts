@@ -4,6 +4,7 @@ import passport from 'passport'
 import CreatePostController from '../controllers/Post/CreatePostController'
 import DeletePostController from '../controllers/Post/DeletePostController'
 import { validateMiddleware } from '../middlewares/ValidationMiddleware'
+import ListPostController from '../controllers/Post/ListPostController'
 import { DeletePostValidation } from '../validations/Post/DeletePost'
 
 const routes = Router()
@@ -12,6 +13,9 @@ routes
   .route('/post')
   .post(passport.authenticate('jwt', { session: false }), (req: Request, res: Response) => {
     return CreatePostController.handle(req, res)
+  })
+  .get(passport.authenticate('jwt', { session: false }), (req: Request, res: Response) => {
+    return ListPostController.handle(req, res)
   })
 
 routes

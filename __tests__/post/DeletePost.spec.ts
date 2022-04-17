@@ -1,12 +1,11 @@
 import request from 'supertest'
 
-import PostMongo from '../../src/entities/post/implementations/PostMongo'
 import { createFakeToken } from '../utils/Auth'
 import { createFakeUser } from '../utils/User'
+import { createFakePost } from '../utils/Post'
 import { mongoServerInit } from '../utils'
 import app from '../../src/app'
 import mongoose from 'mongoose'
-import { createFakePost } from '../utils/Post'
 
 describe('Delete post', () => {
   mongoServerInit()
