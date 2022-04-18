@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app:
+    container_name: social-midia
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    env_file:
+      - .env
+    ports:
+      - ${API_PORT}:${API_PORT}
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:mongo@mongo-social:27017/social?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
+  
+  mongo:
+    container_name: mongo-social
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo

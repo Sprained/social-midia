@@ -7,9 +7,9 @@ export class ValidationErrorHandler extends Error {
   public statusCode: number
   fieldErrors: IFieldErros
 
-  constructor(fieldErrors: IFieldErros) {
+  constructor(fieldErrors: IFieldErros, statusCode: number) {
     super('There are validation errors.')
     this.fieldErrors = fieldErrors
-    this.statusCode = 422
+    this.statusCode = statusCode
   }
 }

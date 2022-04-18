@@ -12,6 +12,9 @@ import { IUserRepository } from '../../repositories/User/IUserRepository'
 import { Handler } from '../../errors/handler'
 import { IPassport } from './IPassport'
 
+import { config } from 'dotenv'
+config()
+
 class Passport implements IPassport {
   jwtOpts = {
     jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -78,10 +81,10 @@ class Passport implements IPassport {
     return promise
   }
 
-  async getToken(user_id: string): Promise<string> {
+  async getToken(userId: string): Promise<string> {
     const token = jwt.sign(
       {
-        user_id: user_id,
+        userId: userId,
       },
       process.env.JWT_SECRET,
       {
