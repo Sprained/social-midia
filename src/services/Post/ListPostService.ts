@@ -7,7 +7,9 @@ class ListPostService implements IListPostService {
   constructor(private postRepository: IPostRepository) {}
 
   async execute(data: ListPostDto): Promise<ListPostReturnDto> {
-    const posts = await this.postRepository.list(data)
+    let posts = await this.postRepository.list(data, { createdAt: 0, updatedAt: 0, __v: 0 })
+
+    posts = await this.postRepository.populatePost(posts, { path: 'user', select: 'name' })
 
     const count = await this.postRepository.count()
 

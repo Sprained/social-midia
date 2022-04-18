@@ -3,7 +3,7 @@ import { isValidObjectId } from 'mongoose'
 
 import PostRepositoryMongo from '../../repositories/Post/implementations/PostRepositoryMongo'
 
-export const DeletePostValidation = (): ValidationChain[] => [
+export const GetPostValidation = (): ValidationChain[] => [
   param('postId')
     .exists()
     .withMessage({ id: 'post-id-name', message: 'Post id is required' })

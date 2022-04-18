@@ -6,6 +6,8 @@ import DeletePostController from '../controllers/Post/DeletePostController'
 import { validateMiddleware } from '../middlewares/ValidationMiddleware'
 import ListPostController from '../controllers/Post/ListPostController'
 import { DeletePostValidation } from '../validations/Post/DeletePost'
+import GetPostcontroller from '../controllers/Post/GetPostcontroller'
+import { GetPostValidation } from '../validations/Post/GetPost'
 
 const routes = Router()
 
@@ -26,6 +28,14 @@ routes
     validateMiddleware,
     (req: Request, res: Response) => {
       return DeletePostController.handle(req, res)
+    }
+  )
+  .get(
+    passport.authenticate('jwt', { session: false }),
+    GetPostValidation(),
+    validateMiddleware,
+    (req: Request, res: Response) => {
+      return GetPostcontroller.handle(req, res)
     }
   )
 
