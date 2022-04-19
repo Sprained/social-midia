@@ -7,6 +7,8 @@ import { Handler } from '../errors/handler'
 
 class LoggingMiddleware {
   async log(req, res: Response, next: NextFunction) {
+    if (process.env.NODE_ENV === 'test') return next()
+
     let log: Log = {
       statusCode: res.statusCode,
       url: req.url,
@@ -22,6 +24,8 @@ class LoggingMiddleware {
   }
 
   async error(err: ValidationErrorHandler | Handler, req, res: Response, next: NextFunction) {
+    if (process.env.NODE_ENV === 'test') return next()
+
     if (err) {
       const log: any = {
         stautsCode: err.statusCode,
