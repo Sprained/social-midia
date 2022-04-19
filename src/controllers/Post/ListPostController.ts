@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { NextFunction, Response } from 'express'
 
 import { IListPostService } from '../../services/Post/IListPostService'
 import ListPostService from '../../services/Post/ListPostService'
@@ -7,7 +7,7 @@ import Pagination from '../../utils/Pagination'
 class ListPostController {
   constructor(private listPostService: IListPostService) {}
 
-  async handle(req, res: Response) {
+  async handle(req, res: Response, next: NextFunction) {
     const { page = 0, limit = 15 } = req.query
 
     try {
@@ -17,7 +17,8 @@ class ListPostController {
 
       return res.status(200).send(result)
     } catch (error) {
-      return res.status(error.statusCode).send({ error: error.message })
+      res.status(error.statusCode).send({ error: error.message })
+      next(error)
     }
   }
 }

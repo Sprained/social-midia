@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { NextFunction, Response } from 'express'
 
 import { IDeletePostService } from '../../services/Post/IDeletePostService'
 import DeletePostService from '../../services/Post/DeletePostService'
@@ -6,7 +6,7 @@ import DeletePostService from '../../services/Post/DeletePostService'
 class DeletePostController {
   constructor(private deletePostService: IDeletePostService) {}
 
-  async handle(req, res: Response) {
+  async handle(req, res: Response, next: NextFunction) {
     const { postId } = req.params
     const { userId } = req.user
 
@@ -15,7 +15,8 @@ class DeletePostController {
 
       return res.status(204).send()
     } catch (error) {
-      return res.status(error.statusCode).send({ error: error.message })
+      res.status(error.statusCode).send({ error: error.message })
+      next(error)
     }
   }
 }

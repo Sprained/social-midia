@@ -37,6 +37,7 @@ export const validateMiddleware = (req: Request, res: Response, next: NextFuncti
   } catch (error) {
     if (error instanceof ValidationErrorHandler) {
       res.status(error.statusCode).send({ message: error.message, field_errors: error.fieldErrors })
+      next(error)
     } else {
       res.status(500).send({ message: error?.message ?? 'Internal Error' })
     }

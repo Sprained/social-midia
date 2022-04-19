@@ -4,7 +4,7 @@ interface IFieldErros {
 }
 
 export class ValidationErrorHandler extends Error {
-  public statusCode: number
+  statusCode: number
   fieldErrors: IFieldErros
 
   constructor(fieldErrors: IFieldErros, statusCode: number) {

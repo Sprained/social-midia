@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { NextFunction, Response } from 'express'
 
 import { IValidateUserEmail } from '../../services/ValidateUserEmail/IValidateUserEmail'
 import ValidateUserEmail from '../../services/ValidateUserEmail/ValidateUserEmail'
@@ -6,7 +6,7 @@ import ValidateUserEmail from '../../services/ValidateUserEmail/ValidateUserEmai
 class ValidateUserEmailController {
   constructor(private validateUserEmailService: IValidateUserEmail) {}
 
-  async handle(req, res: Response) {
+  async handle(req, res: Response, next: NextFunction) {
     const { id, code } = req.params
 
     try {
@@ -14,7 +14,8 @@ class ValidateUserEmailController {
 
       return res.status(204).send()
     } catch (error) {
-      return res.status(error.statusCode).send({ error: error.message })
+      res.status(error.statusCode).send({ error: error.message })
+      next(error)
     }
   }
 }

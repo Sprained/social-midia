@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 
 import RequestRecoveryPasswordController from '../controllers/RequestRecoveryPassword/RequestRecoveryPasswordController'
 import ValidateUserEmailController from '../controllers/ValidateUserEmail/ValidateUserEmailController'
@@ -13,24 +13,36 @@ const routes = Router()
 
 routes
   .route('/user')
-  .post(CreateUserValidation(), validateMiddleware, (req: Request, res: Response) => {
-    return CreateUserController.handle(req, res)
-  })
+  .post(
+    CreateUserValidation(),
+    validateMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      return CreateUserController.handle(req, res, next)
+    }
+  )
 
-routes.route('/user/validate/:id/:code').post((req: Request, res: Response) => {
-  return ValidateUserEmailController.handle(req, res)
+routes.route('/user/validate/:id/:code').post((req: Request, res: Response, next: NextFunction) => {
+  return ValidateUserEmailController.handle(req, res, next)
 })
 
 routes
   .route('/user/password/recovery')
-  .post(RequestRecoveryPasswordValidation(), validateMiddleware, (req: Request, res: Response) => {
-    return RequestRecoveryPasswordController.handle(req, res)
-  })
+  .post(
+    RequestRecoveryPasswordValidation(),
+    validateMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      return RequestRecoveryPasswordController.handle(req, res, next)
+    }
+  )
 
 routes
   .route('/user/passowrd/change')
-  .post(ChangePasswordValidation(), validateMiddleware, (req: Request, res: Response) => {
-    return ChangePasswordController.handle(req, res)
-  })
+  .post(
+    ChangePasswordValidation(),
+    validateMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      return ChangePasswordController.handle(req, res, next)
+    }
+  )
 
 export default routes

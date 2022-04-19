@@ -6,7 +6,7 @@ import GetPostService from '../../services/Post/GetPostService'
 class GetPostController {
   constructor(private getPostService: IGetPostService) {}
 
-  async handle(req, res: Response) {
+  async handle(req, res: Response, next) {
     const { postId } = req.params
 
     try {
@@ -14,7 +14,8 @@ class GetPostController {
 
       return res.status(200).send(post)
     } catch (error) {
-      return res.status(error.statusCode).send({ error: error.message })
+      res.status(error.statusCode).send({ error: error.message })
+      next(error)
     }
   }
 }

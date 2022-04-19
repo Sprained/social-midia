@@ -1,28 +1,35 @@
-import { Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
 
+import LogRepositoryMongo from '../../repositories/Log/implementations/LogRepositoryMongo'
+import { ILogRepository } from '../../repositories/Log/ILogRepository'
 import { ICreateUser } from '../../services/CreateUser/ICreateUser'
 import CreateUser from '../../services/CreateUser/CreateUser'
+import SensitiveData from '../../utils/SensitiveData'
 
 class CreateUserController {
-  constructor(
-    private createUserService: ICreateUser
-  ) {}
+  constructor(private createUserService: ICreateUser, private logRepository: ILogRepository) {}
 
-  async handle(req: Request, res: Response) {
+  async handle(req, res: Response, next: NextFunction) {
     const { name, email, password, phone, birthDate } = req.body
 
     try {
       await this.createUserService.execute({
-        name, email, password, phone, birthDate
+        name,
+        email,
+        password,
+        phone,
+        birthDate,
       })
-  
-      return res.status(201).send()
+
+      res.status(201).send()
+      await this.logRepository.update(req.logId, {
+        requestBody: SensitiveData.removeSensitveData(req.body),
+      })
     } catch (error) {
-      return res.status(error.statusCode).send({ 'error': error.message })
+      res.status(error.statusCode).send({ error: error.message })
+      next(error)
     }
   }
 }
 
-export default new CreateUserController(
-  CreateUser
-)
+export default new CreateUserController(CreateUser, LogRepositoryMongo)

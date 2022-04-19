@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 
 import RefreshTokenController from '../controllers/Auth/RefreshTokenController'
 import { RefreshTokenValidation } from '../validations/Auth/RefreshToken'
@@ -10,14 +10,22 @@ const routes = Router()
 
 routes
   .route('/login')
-  .post(LoginValidation(), validateMiddleware, (req: Request, res: Response) => {
-    return LoginController.handle(req, res)
-  })
+  .post(
+    LoginValidation(),
+    validateMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      return LoginController.handle(req, res, next)
+    }
+  )
 
 routes
   .route('/login/refresh')
-  .post(RefreshTokenValidation(), validateMiddleware, (req: Request, res: Response) => {
-    return RefreshTokenController.hendle(req, res)
-  })
+  .post(
+    RefreshTokenValidation(),
+    validateMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      return RefreshTokenController.hendle(req, res, next)
+    }
+  )
 
 export default routes
